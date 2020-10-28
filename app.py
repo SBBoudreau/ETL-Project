@@ -1,16 +1,15 @@
 # Docs on session basics
 # https://docs.sqlalchemy.org/en/13/orm/session_basics.html
 
-import numpy as np
 import os
 
+import numpy as np
+import pandas as pd
 import sqlalchemy
+from flask import Flask, jsonify
+from sqlalchemy import create_engine
 from sqlalchemy.ext.automap import automap_base
 from sqlalchemy.orm import Session
-from sqlalchemy import create_engine
-
-from flask import Flask, jsonify
-
 
 #################################################
 # Database Setup
@@ -64,28 +63,15 @@ def names():
                         realtor.median_listing_price_per_square_foot, 
                         zillow.forecasteddate,
                         zillow.forecastyoypctchange)\
-                        .filter(realtor.zipcode == zillow.zipcode).limit(50).statement, engine)
+                        .filter(realtor.zipcode == zillow.zipcode).limit(50).statement, engine).sort_values(by='average_listing_price')
                                                                     
-    results = session.query(property_join).all()
+    
 
     # close the session to end the communication with the database
     session.close()
 
     # Create a dictionary from the row data and append to a list of all_props
-    all_props = []
-    for i in results:
-        property_zip = {}
-        properties_zip["Zip Code"] = i.zipcode
-        properties_zip["State Name"] = i.statename
-        properties_zip["County Name"] = i.countyname
-        properties_zip["City Name"] = i.cityname
-        properties_zip["Total Listing Count"] = i.property_total_listing_count
-        properties_zip["Median Listing Price"] = i.median_listing_price
-        properties_zip["Average Listing Price"] = i.average_listing_price
-        properties_zip["Median Listing Price/sqft"] = i.median_listing_price_per_square_foot
-        properties_zip["Forecasted Date"] = i.forecasteddate
-        properties_zip["Forecast yoy % Change"] = i.forecastyoypctchange
-        all_props.append(property_zip)
+    all_props = property_join.to_dict(orient='records')
 
     return jsonify(all_props)
 
