@@ -1,6 +1,6 @@
 # ETL-Project
 
-Group #7 Project #2						                  
+Group #7 ETL Project						                  
 Thursday October 22nd, 2020
 Rice University Data Analytics & Visualization Bootcamp
 
@@ -12,12 +12,13 @@ Javier Portocarrero
 Kiran Mundae
 Sadie Barnett-Boudreau
 
-Data Sources: Zillow (API) & Realtor.com
+Data Sources: Zillow & Realtor.com
 
 GitHub: https://github.com/SBBoudreau/ETL-Project
 
 Datasets: house pricing per zip code
 
-Our final database could show a more complete dataset showing property pricing per zip code located in one consistent location. 
+Our final database merges historical values with projected percentage change per zip code for the state of Texas.  
+With this combined dataset, we will be able to see projected listing prices by zip code--which was initially only available in the Zillow dataset.  
  
-Our final database will be relational (Postgres).
+Our final database will be relational (Postgres) because of the pre-defined housing zip codes provided in both datasets.   
